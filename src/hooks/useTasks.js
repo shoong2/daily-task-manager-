@@ -5,20 +5,15 @@ import { today } from '../utils/dateUtils'
 export function useTasks(routines) {
   const [allTasks, setAllTasksState] = useState(() => getAllTasks())
 
-  const save = useCallback((next) => {
-    setAllTasks(next)
-    setAllTasksState(next)
-  }, [])
-
-  const ensureDate = useCallback((dateKey) => {
+  const ensureDate = useCallback((dateKey, routines) => {
     setAllTasksState(prev => {
       if (prev[dateKey]) return prev
-      const initial = routines.map(r => ({ id: r.id, name: r.name, done: false, type: 'routine' }))
+      const initial = (routines ?? []).map(r => ({ id: r.id, name: r.name, done: false, type: 'routine' }))
       const next = { ...prev, [dateKey]: initial }
       setAllTasks(next)
       return next
     })
-  }, [routines])
+  }, [])
 
   const toggleTask = useCallback((dateKey, taskId) => {
     setAllTasksState(prev => {
