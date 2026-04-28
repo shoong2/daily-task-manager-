@@ -7,7 +7,11 @@ export function getRoutines() {
 }
 
 export function setRoutines(routines) {
-  localStorage.setItem('routines', JSON.stringify(routines))
+  try {
+    localStorage.setItem('routines', JSON.stringify(routines))
+  } catch {
+    // QuotaExceededError — storage full, ignore silently
+  }
 }
 
 export function getAllTasks() {
@@ -19,5 +23,9 @@ export function getAllTasks() {
 }
 
 export function setAllTasks(tasks) {
-  localStorage.setItem('tasks', JSON.stringify(tasks))
+  try {
+    localStorage.setItem('tasks', JSON.stringify(tasks))
+  } catch {
+    // QuotaExceededError — storage full, ignore silently
+  }
 }
