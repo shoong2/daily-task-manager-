@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { toDateKey } from '../utils/dateUtils'
 
 export function calcStreak(allTasks, todayKey) {
+  if (!allTasks) return 0
   let streak = 0
   const [y, m, d] = todayKey.split('-').map(Number)
   const date = new Date(y, m - 1, d)
