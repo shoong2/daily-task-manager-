@@ -1,0 +1,96 @@
+<h2>아래 빈 공간에 뭘 넣을까요?</h2>
+<p class="subtitle">사이드 패널 하단부 채우기 옵션</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="streak" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fafafa;padding:16px;font-family:sans-serif">
+      <div style="background:#fff;border-radius:8px;padding:14px;border:1px solid #e5e7eb">
+        <div style="font-size:11px;color:#aaa;margin-bottom:10px;letter-spacing:0.5px">연속 달성</div>
+        <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:10px">
+          <span style="font-size:28px;font-weight:800;color:#111">7</span>
+          <span style="font-size:12px;color:#888">일 연속</span>
+        </div>
+        <div style="display:flex;gap:4px">
+          <div style="width:18px;height:18px;background:#111;border-radius:4px"></div>
+          <div style="width:18px;height:18px;background:#111;border-radius:4px"></div>
+          <div style="width:18px;height:18px;background:#111;border-radius:4px"></div>
+          <div style="width:18px;height:18px;background:#111;border-radius:4px"></div>
+          <div style="width:18px;height:18px;background:#111;border-radius:4px"></div>
+          <div style="width:18px;height:18px;background:#111;border-radius:4px"></div>
+          <div style="width:18px;height:18px;background:#111;border-radius:4px"></div>
+        </div>
+        <div style="font-size:10px;color:#aaa;margin-top:8px">최고 기록 12일</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>연속 달성 스트릭</h3>
+      <p>루틴을 며칠 연속 완료했는지 표시</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="memo" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fafafa;padding:16px;font-family:sans-serif">
+      <div style="background:#fff;border-radius:8px;padding:14px;border:1px solid #e5e7eb">
+        <div style="font-size:11px;color:#aaa;margin-bottom:8px;letter-spacing:0.5px">오늘 메모</div>
+        <div style="background:#fafafa;border-radius:6px;padding:10px;min-height:60px;font-size:12px;color:#555;border:1px solid #f0f0f0">
+          오늘 점심에 팀 미팅 있음.<br>내일 발표 자료 준비해두기.
+        </div>
+        <div style="font-size:10px;color:#ccc;margin-top:6px;text-align:right">자동 저장됨</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>날짜별 메모</h3>
+      <p>그날 자유롭게 메모 남기기</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="stats" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fafafa;padding:16px;font-family:sans-serif">
+      <div style="background:#fff;border-radius:8px;padding:14px;border:1px solid #e5e7eb">
+        <div style="font-size:11px;color:#aaa;margin-bottom:10px;letter-spacing:0.5px">이번 달 통계</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div style="text-align:center;padding:8px;background:#fafafa;border-radius:6px">
+            <div style="font-size:18px;font-weight:700;color:#111">83%</div>
+            <div style="font-size:10px;color:#aaa">루틴 완료율</div>
+          </div>
+          <div style="text-align:center;padding:8px;background:#fafafa;border-radius:6px">
+            <div style="font-size:18px;font-weight:700;color:#111">47</div>
+            <div style="font-size:10px;color:#aaa">완료한 할 일</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:2px;margin-top:10px">
+          <div style="flex:1;height:3px;background:#111;border-radius:2px"></div>
+          <div style="flex:1;height:3px;background:#111;border-radius:2px"></div>
+          <div style="flex:1;height:3px;background:#111;border-radius:2px"></div>
+          <div style="flex:1;height:3px;background:#e0e0e0;border-radius:2px"></div>
+          <div style="flex:1;height:3px;background:#e0e0e0;border-radius:2px"></div>
+        </div>
+        <div style="font-size:10px;color:#aaa;margin-top:4px">4월 1일 ~ 28일</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>월간 통계</h3>
+      <p>완료율, 완료 개수 등 한눈에 보기</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="all" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fafafa;padding:16px;font-family:sans-serif;display:flex;flex-direction:column;gap:8px">
+      <div style="background:#fff;border-radius:6px;padding:10px;border:1px solid #e5e7eb;display:flex;align-items:center;gap:8px">
+        <span style="font-size:16px">🔥</span>
+        <span style="font-size:11px;color:#555">7일 연속 달성 중</span>
+      </div>
+      <div style="background:#fff;border-radius:6px;padding:10px;border:1px solid #e5e7eb;font-size:11px;color:#555">오늘 메모...</div>
+      <div style="background:#fff;border-radius:6px;padding:10px;border:1px solid #e5e7eb;display:flex;justify-content:space-between">
+        <span style="font-size:11px;color:#555">이번 달 완료율</span>
+        <span style="font-size:11px;font-weight:700;color:#111">83%</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>다 넣기</h3>
+      <p>스트릭 + 메모 + 통계 모두 작게</p>
+    </div>
+  </div>
+
+</div>

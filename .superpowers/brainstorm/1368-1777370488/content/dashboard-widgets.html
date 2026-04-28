@@ -1,0 +1,131 @@
+<h2>대시보드 위젯 미리보기</h2>
+<p class="subtitle">사이드바 하단 + 패널 구성 방향</p>
+
+<div class="mockup">
+  <div class="mockup-header">전체 레이아웃 with 위젯</div>
+  <div class="mockup-body" style="padding:0;font-family:sans-serif;font-size:13px;display:flex;min-height:420px">
+
+    <!-- Sidebar -->
+    <div style="width:90px;background:#fafafa;border-right:1px solid #e5e7eb;padding:16px 8px;display:flex;flex-direction:column;gap:4px">
+      <div style="font-weight:800;color:#111;margin-bottom:16px;font-size:14px;padding:0 4px">Daily</div>
+      <div style="color:#888;padding:6px 8px;font-size:12px;border-radius:6px">오늘</div>
+      <div style="background:#111;color:#fff;padding:6px 8px;border-radius:6px;font-size:12px">주간</div>
+      <div style="color:#888;padding:6px 8px;font-size:12px;border-radius:6px">달력</div>
+      <div style="flex:1"></div>
+      <div style="color:#aaa;padding:6px 8px;font-size:11px;border-radius:6px">루틴 관리</div>
+    </div>
+
+    <!-- Week grid -->
+    <div style="width:190px;border-right:1px solid #e5e7eb;padding:12px;display:flex;flex-direction:column">
+      <div style="font-size:11px;color:#aaa;margin-bottom:8px;letter-spacing:0.5px">2026년 4월</div>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center;font-size:9px;color:#bbb;margin-bottom:4px">
+        <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center">
+        <div style="padding:5px 1px;font-size:10px;color:#ddd">27</div>
+        <div style="padding:5px 1px;font-size:10px;color:#bbb">28</div>
+        <div style="padding:5px 1px;font-size:10px;background:#111;color:#fff;border-radius:5px">29</div>
+        <div style="padding:5px 1px;font-size:10px;color:#bbb">30</div>
+        <div style="padding:5px 1px;font-size:10px;color:#bbb">1</div>
+        <div style="padding:5px 1px;font-size:10px;color:#bbb">2</div>
+        <div style="padding:5px 1px;font-size:10px;color:#bbb">3</div>
+      </div>
+
+      <!-- Streak widget -->
+      <div style="margin-top:14px;padding:10px;background:#fff;border:1px solid #e5e7eb;border-radius:8px">
+        <div style="font-size:10px;color:#aaa;margin-bottom:6px;letter-spacing:0.5px">연속 달성 🔥</div>
+        <div style="display:flex;align-items:baseline;gap:3px">
+          <span style="font-size:22px;font-weight:800;color:#111">7</span>
+          <span style="font-size:11px;color:#888">일 연속</span>
+        </div>
+        <div style="display:flex;gap:2px;margin-top:6px">
+          <div style="width:14px;height:14px;background:#111;border-radius:3px"></div>
+          <div style="width:14px;height:14px;background:#111;border-radius:3px"></div>
+          <div style="width:14px;height:14px;background:#111;border-radius:3px"></div>
+          <div style="width:14px;height:14px;background:#111;border-radius:3px"></div>
+          <div style="width:14px;height:14px;background:#111;border-radius:3px"></div>
+          <div style="width:14px;height:14px;background:#111;border-radius:3px"></div>
+          <div style="width:14px;height:14px;background:#111;border-radius:3px"></div>
+        </div>
+        <div style="font-size:9px;color:#ccc;margin-top:4px">최고 기록 12일</div>
+      </div>
+
+      <!-- Weather widget -->
+      <div style="margin-top:8px;padding:10px;background:#fff;border:1px solid #e5e7eb;border-radius:8px">
+        <div style="font-size:10px;color:#aaa;margin-bottom:6px;letter-spacing:0.5px">날씨 · 서울</div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span style="font-size:20px">⛅</span>
+          <div>
+            <div style="font-size:18px;font-weight:700;color:#111">18°</div>
+            <div style="font-size:10px;color:#888">구름 조금</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <div style="text-align:center">
+            <div style="font-size:9px;color:#aaa">오전</div>
+            <div style="font-size:11px">☀️</div>
+            <div style="font-size:9px;color:#555">15°</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-size:9px;color:#aaa">낮</div>
+            <div style="font-size:11px">⛅</div>
+            <div style="font-size:9px;color:#555">20°</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-size:9px;color:#aaa">저녁</div>
+            <div style="font-size:11px">🌧️</div>
+            <div style="font-size:9px;color:#555">14°</div>
+          </div>
+        </div>
+        <div style="margin-top:8px;display:flex;justify-content:space-between;align-items:center">
+          <div style="font-size:9px;color:#aaa">미세먼지</div>
+          <div style="display:flex;align-items:center;gap:4px">
+            <div style="width:6px;height:6px;background:#4caf50;border-radius:50%"></div>
+            <span style="font-size:10px;color:#555;font-weight:600">좋음 18㎍</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day panel + news -->
+    <div style="flex:1;display:flex;flex-direction:column;overflow:hidden">
+      <!-- Tasks -->
+      <div style="padding:12px;border-bottom:1px solid #f0f0f0;flex:1">
+        <div style="font-weight:700;color:#111;font-size:14px;margin-bottom:10px">4월 29일 화요일</div>
+        <div style="font-size:10px;color:#aaa;letter-spacing:0.5px;margin-bottom:6px">루틴</div>
+        <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f5f5f5">
+          <div style="width:15px;height:15px;border:2px solid #111;border-radius:4px;background:#111;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <span style="color:#fff;font-size:9px">✓</span>
+          </div>
+          <span style="color:#bbb;font-size:12px;text-decoration:line-through">운동하기</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:6px 0">
+          <div style="width:15px;height:15px;border:2px solid #ddd;border-radius:4px;flex-shrink:0"></div>
+          <span style="color:#333;font-size:12px">독서 30분</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;padding:6px 0;color:#bbb;font-size:12px">
+          <span>+</span> 할 일 추가
+        </div>
+      </div>
+
+      <!-- Game news -->
+      <div style="padding:12px">
+        <div style="font-size:10px;color:#aaa;letter-spacing:0.5px;margin-bottom:8px">게임 뉴스 🎮</div>
+        <div style="padding:7px 0;border-bottom:1px solid #f5f5f5">
+          <div style="font-size:12px;color:#222;font-weight:500;line-height:1.4">닌텐도, 새로운 스위치 후속작 발표 — 2026년 하반기 출시 예정</div>
+          <div style="font-size:10px;color:#aaa;margin-top:3px">IGN · 2시간 전</div>
+        </div>
+        <div style="padding:7px 0;border-bottom:1px solid #f5f5f5">
+          <div style="font-size:12px;color:#222;font-weight:500;line-height:1.4">GDC 2026 하이라이트 — 인디 개발자들의 주목할 만한 세션 TOP 5</div>
+          <div style="font-size:10px;color:#aaa;margin-top:3px">Gamasutra · 5시간 전</div>
+        </div>
+        <div style="padding:7px 0">
+          <div style="font-size:12px;color:#222;font-weight:500;line-height:1.4">Epic Games, 언리얼 엔진 6 베타 공개 — 새 렌더링 파이프라인 소개</div>
+          <div style="font-size:10px;color:#aaa;margin-top:3px">GameDeveloper · 8시간 전</div>
+        </div>
+        <div style="font-size:11px;color:#bbb;text-align:right;margin-top:4px;cursor:pointer">더 보기 →</div>
+      </div>
+    </div>
+
+  </div>
+</div>
