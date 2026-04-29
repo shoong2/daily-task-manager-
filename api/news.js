@@ -6,8 +6,8 @@ export default async function handler(req, res) {
 
   try {
     const url = 'https://newsapi.org/v2/everything?' + new URLSearchParams({
-      q: 'game development OR video games OR indie game',
-      language: 'en',
+      q: '게임 OR 게임개발 OR 모바일게임 OR PC게임 OR 인디게임',
+      language: 'ko',
       sortBy: 'publishedAt',
       pageSize: '5',
     })
