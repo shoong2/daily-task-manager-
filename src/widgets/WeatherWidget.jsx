@@ -24,7 +24,7 @@ async function fetchWeather(lat, lon) {
   const [currentRes, forecastRes, airRes] = await Promise.all([
     fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`),
     fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`),
-    fetch(`http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`),
+    fetch(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`),
   ])
   if (!currentRes.ok) throw new Error(`날씨 API 오류 (${currentRes.status})`)
   const [current, forecast, air] = await Promise.all([currentRes.json(), forecastRes.json(), airRes.json()])
