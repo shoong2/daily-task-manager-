@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { getRoutines, setRoutines, getAllTasks, setAllTasks } from './storageUtils'
+import { getRoutines, setRoutines, getAllTasks, setAllTasks, getSearchFilters, setSearchFilters } from './storageUtils'
 
 beforeEach(() => {
   localStorage.clear()
@@ -34,5 +34,22 @@ describe('getAllTasks / setAllTasks', () => {
     const tasks = { '2026-04-28': [{ id: 't1', name: '운동', done: false, type: 'one-time' }] }
     setAllTasks(tasks)
     expect(getAllTasks()).toEqual(tasks)
+  })
+})
+
+describe('getSearchFilters / setSearchFilters', () => {
+  it('저장된 search-filters가 없으면 null을 반환한다', () => {
+    expect(getSearchFilters()).toBeNull()
+  })
+
+  it('search-filters를 저장하고 다시 읽을 수 있다', () => {
+    const filters = { domains: {}, keywords: { '협찬': { count: 3, blocked: true, manual: false } }, threshold: 3 }
+    setSearchFilters(filters)
+    expect(getSearchFilters()).toEqual(filters)
+  })
+
+  it('손상된 JSON이면 null을 반환한다', () => {
+    localStorage.setItem('search-filters', 'invalid json{')
+    expect(getSearchFilters()).toBeNull()
   })
 })
