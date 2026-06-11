@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import FilterManagerPage from './FilterManagerPage'
@@ -48,8 +48,8 @@ it('도메인 삭제 버튼이 동작한다', async () => {
   const input = screen.getAllByPlaceholderText('직접 추가...')[0]
   await userEvent.type(input, 'deleteme.com{Enter}')
   expect(screen.getByText('deleteme.com')).toBeInTheDocument()
-  const deleteButtons = screen.getAllByRole('button', { name: '삭제' })
-  await userEvent.click(deleteButtons[0])
+  const domainRow = screen.getByText('deleteme.com').closest('div')
+  await userEvent.click(within(domainRow).getByRole('button', { name: '삭제' }))
   expect(screen.queryByText('deleteme.com')).not.toBeInTheDocument()
 })
 
@@ -59,4 +59,14 @@ it('임계값 변경이 반영된다', async () => {
   await userEvent.clear(thresholdInput)
   await userEvent.type(thresholdInput, '5')
   expect(thresholdInput.value).toBe('5')
+})
+
+it('키워드 삭제 버튼이 동작한다', async () => {
+  renderPage()
+  const inputs = screen.getAllByPlaceholderText('직접 추가...')
+  await userEvent.type(inputs[1], '삭제할키워드{Enter}')
+  expect(screen.getByText('삭제할키워드')).toBeInTheDocument()
+  const keywordRow = screen.getByText('삭제할키워드').closest('div')
+  await userEvent.click(within(keywordRow).getByRole('button', { name: '삭제' }))
+  expect(screen.queryByText('삭제할키워드')).not.toBeInTheDocument()
 })

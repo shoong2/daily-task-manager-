@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSearchFilter } from '../hooks/useSearchFilter'
 
 function AddInput({ onAdd, placeholder = '직접 추가...' }) {
@@ -32,6 +32,10 @@ function AddInput({ onAdd, placeholder = '직접 추가...' }) {
 export default function FilterManagerPage() {
   const { filters, addDomain, removeDomain, addKeyword, removeKeyword, updateThreshold } = useSearchFilter()
   const [thresholdInput, setThresholdInput] = useState(String(filters.threshold))
+
+  useEffect(() => {
+    setThresholdInput(String(filters.threshold))
+  }, [filters.threshold])
 
   const blockedDomains = Object.entries(filters.domains).filter(([, v]) => v.blocked)
   const blockedKeywords = Object.entries(filters.keywords).filter(([, v]) => v.blocked)
@@ -72,7 +76,7 @@ export default function FilterManagerPage() {
             </div>
           </div>
         ))}
-        <AddInput onAdd={addDomain} placeholder="직접 추가..." />
+        <AddInput onAdd={addDomain} />
       </section>
 
       <section className="bg-white rounded-2xl border border-gray-200 p-5 mb-4">
@@ -100,7 +104,7 @@ export default function FilterManagerPage() {
             </div>
           </div>
         ))}
-        <AddInput onAdd={addKeyword} placeholder="직접 추가..." />
+        <AddInput onAdd={addKeyword} />
       </section>
 
       <section className="bg-white rounded-2xl border border-gray-200 p-5">
