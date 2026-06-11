@@ -9,7 +9,6 @@ export default function SearchResultsPage() {
   const [retryCount, setRetryCount] = useState(0)
   const [loading, setLoading] = useState(false)
   const [fetchError, setFetchError] = useState(null)
-  const [googleData, setGoogleData] = useState(null)
   const [naverData, setNaverData] = useState(null)
   const [hiddenByUser, setHiddenByUser] = useState(new Set())
   const [showFiltered, setShowFiltered] = useState(false)
@@ -22,7 +21,6 @@ export default function SearchResultsPage() {
     setLoading(true)
     setFetchError(null)
     setHiddenByUser(new Set())
-    setGoogleData(null)
     setNaverData(null)
 
     fetch(`/api/search?q=${encodeURIComponent(query)}`)
@@ -31,7 +29,6 @@ export default function SearchResultsPage() {
         return r.json()
       })
       .then(data => {
-        setGoogleData(data.google)
         setNaverData(data.naver)
       })
       .catch(() => setFetchError('검색 결과를 불러오지 못했어요'))
@@ -87,12 +84,8 @@ export default function SearchResultsPage() {
     })
   }
 
-  const googleResults = googleData?.results ?? []
   const naverResults = naverData?.results ?? []
-  const allFiltered = [
-    ...getFilteredResults(googleResults).map(r => ({ ...r, source: 'Google' })),
-    ...getFilteredResults(naverResults).map(r => ({ ...r, source: 'Naver' })),
-  ]
+  const allFiltered = getFilteredResults(naverResults).map(r => ({ ...r, source: 'Naver' }))
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -132,33 +125,18 @@ export default function SearchResultsPage() {
           </div>
         )}
 
-        {!loading && !fetchError && (googleData || naverData) && (
-          <div className="grid grid-cols-2 gap-6">
-            <div>
-              <h2 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                Google
-                {googleData?.error && (
-                  <span className="text-xs text-red-400 font-normal">{googleData.error}</span>
-                )}
-              </h2>
-              {googleResults.length === 0 && !googleData?.error && (
-                <p className="text-xs text-gray-400">결과가 없어요</p>
+        {!loading && !fetchError && naverData && (
+          <div className="max-w-2xl mx-auto">
+            <h2 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+              Naver
+              {naverData?.error && (
+                <span className="text-xs text-red-400 font-normal">{naverData.error}</span>
               )}
-              {googleResults.map(renderResult)}
-            </div>
-
-            <div>
-              <h2 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                Naver
-                {naverData?.error && (
-                  <span className="text-xs text-red-400 font-normal">{naverData.error}</span>
-                )}
-              </h2>
-              {naverResults.length === 0 && !naverData?.error && (
-                <p className="text-xs text-gray-400">결과가 없어요</p>
-              )}
-              {naverResults.map(renderResult)}
-            </div>
+            </h2>
+            {naverResults.length === 0 && !naverData?.error && (
+              <p className="text-xs text-gray-400">결과가 없어요</p>
+            )}
+            {naverResults.map(renderResult)}
           </div>
         )}
 

@@ -3,44 +3,16 @@ export default async function handler(req, res) {
     const q = req.query?.q?.trim()
     if (!q) return res.status(400).json({ error: '검색어가 없어요' })
 
-    const [googleResult, naverResult] = await Promise.allSettled([
-      fetchGoogle(q),
-      fetchNaver(q),
-    ])
+    const naverResult = await fetchNaver(q).then(
+      results => ({ results, error: null }),
+      () => ({ results: null, error: '네이버 결과를 불러오지 못했어요' }),
+    )
 
     res.setHeader('Cache-Control', 'no-store')
-    res.json({
-      google: googleResult.status === 'fulfilled'
-        ? { results: googleResult.value, error: null }
-        : { results: null, error: '구글 결과를 불러오지 못했어요' },
-      naver: naverResult.status === 'fulfilled'
-        ? { results: naverResult.value, error: null }
-        : { results: null, error: '네이버 결과를 불러오지 못했어요' },
-    })
+    res.json({ naver: naverResult })
   } catch {
     res.status(500).json({ error: '검색 중 오류가 발생했어요' })
   }
-}
-
-async function fetchGoogle(q) {
-  const apiKey = process.env.GOOGLE_SEARCH_API_KEY
-  const engineId = process.env.GOOGLE_SEARCH_ENGINE_ID
-  if (!apiKey || !engineId) throw new Error('Google API not configured')
-
-  const url = 'https://www.googleapis.com/customsearch/v1?' + new URLSearchParams({
-    key: apiKey,
-    cx: engineId,
-    q,
-    num: '10',
-  })
-  const res = await fetch(url)
-  if (!res.ok) throw new Error(`Google API ${res.status}`)
-  const data = await res.json()
-  return (data.items ?? []).map(item => ({
-    title: item.title ?? '',
-    url: item.link,
-    snippet: item.snippet ?? '',
-  }))
 }
 
 async function fetchNaver(q) {
