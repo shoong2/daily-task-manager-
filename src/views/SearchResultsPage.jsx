@@ -54,6 +54,7 @@ export default function SearchResultsPage() {
   }
 
   function renderResult(result) {
+    if (!result.url) return null  // skip results with no URL
     const { filtered } = score(result)
     if (hiddenByUser.has(result.url) || filtered) return null
     return (

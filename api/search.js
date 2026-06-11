@@ -37,7 +37,7 @@ async function fetchGoogle(q) {
   if (!res.ok) throw new Error(`Google API ${res.status}`)
   const data = await res.json()
   return (data.items ?? []).map(item => ({
-    title: item.title,
+    title: item.title ?? '',
     url: item.link,
     snippet: item.snippet ?? '',
   }))
