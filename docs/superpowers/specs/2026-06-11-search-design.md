@@ -206,10 +206,10 @@ api/
 ## 환경 변수 추가
 
 ```
-VITE_GOOGLE_SEARCH_API_KEY=<Google Custom Search API 키>
-VITE_GOOGLE_SEARCH_ENGINE_ID=<Custom Search Engine ID>
+GOOGLE_SEARCH_API_KEY=<Google Custom Search API 키>
+GOOGLE_SEARCH_ENGINE_ID=<Custom Search Engine ID>
 NAVER_CLIENT_ID=<Naver 검색 API Client ID>
 NAVER_CLIENT_SECRET=<Naver 검색 API Client Secret>
 ```
 
-- Google·Naver 키는 `/api/search.js` serverless function에서만 사용 (클라이언트 노출 없음)
+- `VITE_` 접두어 없음 — `/api/search.js` serverless function에서만 사용하며 클라이언트 번들에 포함되지 않음
