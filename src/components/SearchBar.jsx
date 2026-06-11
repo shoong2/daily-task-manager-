@@ -6,13 +6,14 @@ export default function SearchBar() {
   function handleSearch() {
     const q = query.trim()
     if (!q) return
-    window.open(`/search?q=${encodeURIComponent(q)}`, '_blank')
+    window.open(`/search?q=${encodeURIComponent(q)}`, '_blank', 'noopener,noreferrer')
   }
 
   return (
     <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-200 bg-white">
       <span className="text-gray-400 text-sm">🔍</span>
       <input
+        aria-label="검색"
         type="text"
         value={query}
         onChange={e => setQuery(e.target.value)}

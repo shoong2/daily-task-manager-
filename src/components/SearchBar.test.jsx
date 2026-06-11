@@ -1,10 +1,14 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import SearchBar from './SearchBar'
 
 beforeEach(() => {
   vi.stubGlobal('open', vi.fn())
+})
+
+afterEach(() => {
+  vi.unstubAllGlobals()
 })
 
 describe('SearchBar', () => {
@@ -20,7 +24,8 @@ describe('SearchBar', () => {
     await userEvent.type(input, '리액트 튜토리얼{Enter}')
     expect(window.open).toHaveBeenCalledWith(
       '/search?q=%EB%A6%AC%EC%95%A1%ED%8A%B8%20%ED%8A%9C%ED%86%A0%EB%A6%AC%EC%96%BC',
-      '_blank'
+      '_blank',
+      'noopener,noreferrer'
     )
   })
 
@@ -31,7 +36,8 @@ describe('SearchBar', () => {
     await userEvent.click(screen.getByRole('button', { name: '검색' }))
     expect(window.open).toHaveBeenCalledWith(
       '/search?q=%EA%B2%8C%EC%9E%84%20%EB%89%B4%EC%8A%A4',
-      '_blank'
+      '_blank',
+      'noopener,noreferrer'
     )
   })
 
