@@ -6,6 +6,7 @@ export default function SearchResultsPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const query = searchParams.get('q') ?? ''
   const [inputValue, setInputValue] = useState(query)
+  const [retryCount, setRetryCount] = useState(0)
   const [loading, setLoading] = useState(false)
   const [fetchError, setFetchError] = useState(null)
   const [googleData, setGoogleData] = useState(null)
@@ -25,14 +26,17 @@ export default function SearchResultsPage() {
     setNaverData(null)
 
     fetch(`/api/search?q=${encodeURIComponent(query)}`)
-      .then(r => r.json())
+      .then(r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`)
+        return r.json()
+      })
       .then(data => {
         setGoogleData(data.google)
         setNaverData(data.naver)
       })
       .catch(() => setFetchError('검색 결과를 불러오지 못했어요'))
       .finally(() => setLoading(false))
-  }, [query])
+  }, [query, retryCount])
 
   function handleSearch() {
     const q = inputValue.trim()
@@ -106,7 +110,7 @@ export default function SearchResultsPage() {
           className="px-4 py-1.5 bg-gray-900 text-white text-sm rounded-lg hover:bg-gray-700 transition-colors">
           검색
         </button>
-        <Link to="/filter-manager" target="_blank"
+        <Link to="/filter-manager" target="_blank" rel="noopener noreferrer"
           className="text-xs text-gray-400 hover:text-gray-700 whitespace-nowrap">
           필터 관리 →
         </Link>
@@ -120,7 +124,7 @@ export default function SearchResultsPage() {
         {fetchError && (
           <div className="text-center py-16">
             <p className="text-gray-500 text-sm mb-3">{fetchError}</p>
-            <button onClick={() => window.location.reload()}
+            <button onClick={() => setRetryCount(c => c + 1)}
               className="text-sm px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-100">
               다시 시도
             </button>

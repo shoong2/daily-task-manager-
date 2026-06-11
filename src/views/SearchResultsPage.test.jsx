@@ -88,6 +88,14 @@ it('fetch 실패 시 에러 메시지를 표시한다', async () => {
   })
 })
 
+it('HTTP 500 응답 시 에러 메시지를 표시한다', async () => {
+  fetch.mockResolvedValue({ ok: false, status: 500, json: async () => ({}) })
+  renderWithQuery('리액트')
+  await waitFor(() => {
+    expect(screen.getByText('검색 결과를 불러오지 못했어요')).toBeInTheDocument()
+  })
+})
+
 it('필터에 걸린 결과는 숨겨진 결과 섹션에 표시된다', async () => {
   localStorage.setItem('search-filters', JSON.stringify({
     domains: { 'spam.com': { count: 5, blocked: true, manual: true } },
