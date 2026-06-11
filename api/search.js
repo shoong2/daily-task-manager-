@@ -1,21 +1,25 @@
 export default async function handler(req, res) {
-  const q = req.query?.q?.trim()
-  if (!q) return res.status(400).json({ error: '검색어가 없어요' })
+  try {
+    const q = req.query?.q?.trim()
+    if (!q) return res.status(400).json({ error: '검색어가 없어요' })
 
-  const [googleResult, naverResult] = await Promise.allSettled([
-    fetchGoogle(q),
-    fetchNaver(q),
-  ])
+    const [googleResult, naverResult] = await Promise.allSettled([
+      fetchGoogle(q),
+      fetchNaver(q),
+    ])
 
-  res.setHeader('Cache-Control', 'no-store')
-  res.json({
-    google: googleResult.status === 'fulfilled'
-      ? { results: googleResult.value, error: null }
-      : { results: null, error: '구글 결과를 불러오지 못했어요' },
-    naver: naverResult.status === 'fulfilled'
-      ? { results: naverResult.value, error: null }
-      : { results: null, error: '네이버 결과를 불러오지 못했어요' },
-  })
+    res.setHeader('Cache-Control', 'no-store')
+    res.json({
+      google: googleResult.status === 'fulfilled'
+        ? { results: googleResult.value, error: null }
+        : { results: null, error: '구글 결과를 불러오지 못했어요' },
+      naver: naverResult.status === 'fulfilled'
+        ? { results: naverResult.value, error: null }
+        : { results: null, error: '네이버 결과를 불러오지 못했어요' },
+    })
+  } catch {
+    res.status(500).json({ error: '검색 중 오류가 발생했어요' })
+  }
 }
 
 async function fetchGoogle(q) {
@@ -57,8 +61,8 @@ async function fetchNaver(q) {
   if (!res.ok) throw new Error(`Naver API ${res.status}`)
   const data = await res.json()
   return (data.items ?? []).map(item => ({
-    title: item.title.replace(/<[^>]+>/g, ''),
-    url: item.link,
-    snippet: item.description.replace(/<[^>]+>/g, ''),
+    title: (item.title ?? '').replace(/<[^>]+>/g, ''),
+    url: item.link || null,
+    snippet: (item.description ?? '').replace(/<[^>]+>/g, ''),
   }))
 }
