@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Sidebar from './components/Sidebar'
 import RoutineManager from './components/RoutineManager'
+import SearchBar from './components/SearchBar'
 import SomedayPanel from './components/SomedayPanel'
 import TodayView from './views/TodayView'
 import WeekView from './views/WeekView'
@@ -26,39 +27,42 @@ export default function App() {
   const taskProps = { allTasks, routines, ensureDate, toggleTask, addTask, removeTask, addRoutine, addRoutineToToday }
 
   return (
-    <div className="flex min-h-screen bg-gray-50 text-gray-900">
-      <Sidebar
-        currentView={currentView}
-        onViewChange={setCurrentView}
-        onRoutineManager={() => setShowRoutineManager(true)}
-      />
+    <div className="flex flex-col min-h-screen bg-gray-50 text-gray-900">
+      <SearchBar />
+      <div className="flex flex-1">
+        <Sidebar
+          currentView={currentView}
+          onViewChange={setCurrentView}
+          onRoutineManager={() => setShowRoutineManager(true)}
+        />
 
-      <div className="flex-1 flex flex-col p-6 gap-5">
-        <div className="bg-white rounded-2xl border border-gray-200 flex overflow-hidden">
-          <div className="flex-1 flex overflow-hidden min-w-0">
-            {currentView === 'today' && <TodayView {...taskProps} />}
-            {currentView === 'week' && <WeekView {...taskProps} />}
-            {currentView === 'calendar' && <CalendarView {...taskProps} />}
+        <div className="flex-1 flex flex-col p-6 gap-5">
+          <div className="bg-white rounded-2xl border border-gray-200 flex overflow-hidden">
+            <div className="flex-1 flex overflow-hidden min-w-0">
+              {currentView === 'today' && <TodayView {...taskProps} />}
+              {currentView === 'week' && <WeekView {...taskProps} />}
+              {currentView === 'calendar' && <CalendarView {...taskProps} />}
+            </div>
+            <SomedayPanel
+              tasks={somedayTasks}
+              onAdd={addSomedayTask}
+              onToggle={toggleSomedayTask}
+              onRemove={removeSomedayTask}
+            />
           </div>
-          <SomedayPanel
-            tasks={somedayTasks}
-            onAdd={addSomedayTask}
-            onToggle={toggleSomedayTask}
-            onRemove={removeSomedayTask}
+
+          <div className="grid grid-cols-[1fr_1fr_2fr] gap-5">
+            <StreakWidget allTasks={allTasks} />
+            <WeatherWidget />
+            <NewsWidget />
+          </div>
+
+          <BookmarksWidget
+            bookmarks={bookmarks}
+            onAdd={addBookmark}
+            onRemove={removeBookmark}
           />
         </div>
-
-        <div className="grid grid-cols-[1fr_1fr_2fr] gap-5">
-          <StreakWidget allTasks={allTasks} />
-          <WeatherWidget />
-          <NewsWidget />
-        </div>
-
-        <BookmarksWidget
-          bookmarks={bookmarks}
-          onAdd={addBookmark}
-          onRemove={removeBookmark}
-        />
       </div>
 
       {showRoutineManager && (
