@@ -56,6 +56,7 @@ describe('scoreResult', () => {
     const result = scoreResult({ title: '협찬 제품 사용 후기', url: 'https://normal.com/1' }, filters)
     expect(result.score).toBe(40)
     expect(result.filtered).toBe(false)
+    expect(result.reasons).toContain('차단된 키워드: 협찬')
   })
 
   it('차단된 키워드 2개면 +80, filtered true', () => {
