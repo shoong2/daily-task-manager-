@@ -57,3 +57,19 @@ export function setBookmarks(bookmarks) {
     localStorage.setItem('bookmarks', JSON.stringify(bookmarks))
   } catch {}
 }
+
+export function getSearchFilters() {
+  try {
+    const raw = localStorage.getItem('search-filters')
+    if (!raw) return null
+    return JSON.parse(raw)
+  } catch {
+    return null
+  }
+}
+
+export function setSearchFilters(filters) {
+  try {
+    localStorage.setItem('search-filters', JSON.stringify(filters))
+  } catch {}
+}

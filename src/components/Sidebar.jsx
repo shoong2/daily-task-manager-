@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 const VIEWS = [
   { id: 'today', label: '오늘' },
   { id: 'week', label: '주간' },
@@ -31,6 +33,14 @@ export default function Sidebar({ currentView, onViewChange, onRoutineManager })
       >
         루틴 관리
       </button>
+      <Link
+        to="/filter-manager"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block px-3 py-2 rounded-lg text-xs text-gray-400 hover:bg-gray-200 transition-colors"
+      >
+        필터 관리
+      </Link>
     </aside>
   )
 }
