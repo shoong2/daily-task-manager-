@@ -53,6 +53,14 @@ describe('markAsAd', () => {
     const saved = JSON.parse(localStorage.getItem('search-filters'))
     expect(saved.domains['spam.com'].count).toBe(1)
   })
+
+  it('manual 도메인은 markAsAd를 호출해도 blocked 상태가 변하지 않는다', () => {
+    const { result } = renderHook(() => useSearchFilter())
+    act(() => result.current.addDomain('manual.com'))  // blocked:true, manual:true
+    act(() => result.current.markAsAd({ title: '글', url: 'https://manual.com/1' }))
+    expect(result.current.filters.domains['manual.com'].blocked).toBe(true)
+    expect(result.current.filters.domains['manual.com'].manual).toBe(true)
+  })
 })
 
 describe('markAsNormal', () => {
@@ -62,6 +70,30 @@ describe('markAsNormal', () => {
     act(() => result.current.markAsNormal({ title: '글', url: 'https://site.com/2' }))
     act(() => result.current.markAsNormal({ title: '글', url: 'https://site.com/3' }))
     expect(result.current.filters.domains['site.com'].count).toBe(0)
+  })
+
+  it('manual 도메인은 markAsNormal을 호출해도 count가 변하지 않는다', () => {
+    const { result } = renderHook(() => useSearchFilter())
+    act(() => result.current.addDomain('manual.com'))  // count: threshold(3)
+    const countBefore = result.current.filters.domains['manual.com'].count
+    act(() => result.current.markAsNormal({ title: '글', url: 'https://manual.com/1' }))
+    expect(result.current.filters.domains['manual.com'].count).toBe(countBefore)
+  })
+
+  it('키워드 count가 1 감소하고 0 미만이 되지 않는다', () => {
+    const { result } = renderHook(() => useSearchFilter())
+    act(() => result.current.markAsAd({ title: '신규키워드 테스트', url: 'https://site.com/1' }))
+    act(() => result.current.markAsNormal({ title: '신규키워드 테스트', url: 'https://site.com/2' }))
+    act(() => result.current.markAsNormal({ title: '신규키워드 테스트', url: 'https://site.com/3' }))
+    expect(result.current.filters.keywords['신규키워드'].count).toBe(0)
+  })
+
+  it('존재하지 않는 도메인에 markAsNormal을 호출해도 오류가 없다', () => {
+    const { result } = renderHook(() => useSearchFilter())
+    expect(() => {
+      act(() => result.current.markAsNormal({ title: '글', url: 'https://unknown.com/1' }))
+    }).not.toThrow()
+    expect(result.current.filters.domains['unknown.com']).toBeUndefined()
   })
 })
 
