@@ -32,6 +32,10 @@ describe('extractKeywords', () => {
     expect(kws).toContain('협찬')
     expect(kws).toContain('리뷰')
   })
+
+  it('title이 null이면 빈 배열을 반환한다', () => {
+    expect(extractKeywords(null)).toEqual([])
+  })
 })
 
 describe('scoreResult', () => {

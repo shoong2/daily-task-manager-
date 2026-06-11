@@ -15,6 +15,7 @@ export function extractDomain(url) {
 }
 
 export function extractKeywords(title) {
+  if (!title || typeof title !== 'string') return []
   return title
     .split(/[\s\[\]().,!?·|:;'"\/\\+\-=@#$%^&*~`<>{}]+/)
     .map(w => w.trim())
@@ -22,7 +23,8 @@ export function extractKeywords(title) {
 }
 
 export function scoreResult(result, filters) {
-  const { domains, keywords } = filters
+  const domains = filters?.domains ?? {}
+  const keywords = filters?.keywords ?? {}
   const domain = extractDomain(result.url)
   let score = 0
   const reasons = []
