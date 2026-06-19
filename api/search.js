@@ -20,17 +20,40 @@ async function fetchNaver(q) {
   const clientSecret = process.env.NAVER_CLIENT_SECRET
   if (!clientId || !clientSecret) throw new Error('Naver API not configured')
 
-  const url = 'https://openapi.naver.com/v1/search/webkr.json?' + new URLSearchParams({
+  const headers = {
+    'X-Naver-Client-Id': clientId,
+    'X-Naver-Client-Secret': clientSecret,
+  }
+
+  const settled = await Promise.allSettled([
+    fetchNaverEndpoint('blog', q, headers),
+    fetchNaverEndpoint('webkr', q, headers),
+  ])
+
+  if (settled.every(r => r.status === 'rejected')) {
+    throw new Error('All Naver endpoints failed')
+  }
+
+  const seen = new Set()
+  const merged = []
+  for (const r of settled) {
+    if (r.status !== 'fulfilled') continue
+    for (const item of r.value) {
+      if (!item.url || seen.has(item.url)) continue
+      seen.add(item.url)
+      merged.push(item)
+    }
+  }
+  return merged
+}
+
+async function fetchNaverEndpoint(type, q, headers) {
+  const url = `https://openapi.naver.com/v1/search/${type}.json?` + new URLSearchParams({
     query: q,
-    display: '10',
+    display: '30',
   })
-  const res = await fetch(url, {
-    headers: {
-      'X-Naver-Client-Id': clientId,
-      'X-Naver-Client-Secret': clientSecret,
-    },
-  })
-  if (!res.ok) throw new Error(`Naver API ${res.status}`)
+  const res = await fetch(url, { headers })
+  if (!res.ok) throw new Error(`Naver ${type} ${res.status}`)
   const data = await res.json()
   return (data.items ?? []).map(item => ({
     title: (item.title ?? '').replace(/<[^>]+>/g, ''),
