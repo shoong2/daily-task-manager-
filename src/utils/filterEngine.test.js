@@ -7,11 +7,35 @@ describe('extractDomain', () => {
   })
 
   it('www 없는 URL도 처리한다', () => {
-    expect(extractDomain('https://blog.naver.com/post/1')).toBe('blog.naver.com')
+    expect(extractDomain('https://example.com/page/1')).toBe('example.com')
   })
 
   it('잘못된 URL이면 원문 그대로 반환한다', () => {
     expect(extractDomain('not-a-url')).toBe('not-a-url')
+  })
+
+  it('네이버 블로그는 블로거 ID 단위로 추출한다', () => {
+    expect(extractDomain('https://blog.naver.com/user123/222000')).toBe('blog.naver.com/user123')
+  })
+
+  it('네이버 모바일 블로그는 데스크탑 도메인으로 정규화한다', () => {
+    expect(extractDomain('https://m.blog.naver.com/user123/222000')).toBe('blog.naver.com/user123')
+  })
+
+  it('네이버 PostView 레거시 URL은 blogId 쿼리에서 추출한다', () => {
+    expect(extractDomain('https://blog.naver.com/PostView.naver?blogId=user123&logNo=1')).toBe('blog.naver.com/user123')
+  })
+
+  it('브런치는 @작가 단위로 추출한다', () => {
+    expect(extractDomain('https://brunch.co.kr/@writer/42')).toBe('brunch.co.kr/@writer')
+  })
+
+  it('벨로그는 @사용자 단위로 추출한다', () => {
+    expect(extractDomain('https://velog.io/@user/post-slug')).toBe('velog.io/@user')
+  })
+
+  it('블로그 홈(경로 없음)은 호스트만 반환한다', () => {
+    expect(extractDomain('https://blog.naver.com/')).toBe('blog.naver.com')
   })
 })
 

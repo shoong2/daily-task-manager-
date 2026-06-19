@@ -6,9 +6,34 @@ const STOPWORDS = new Set([
   '및', '등', '후', '전', '중', '위', '아래',
 ])
 
+const BLOG_HOST_NORMALIZE = {
+  'm.blog.naver.com': 'blog.naver.com',
+}
+
+const BLOG_USER_PATTERN = {
+  'blog.naver.com': /^\/([^/?#]+)/,
+  'brunch.co.kr': /^\/(@[^/?#]+)/,
+  'velog.io': /^\/(@[^/?#]+)/,
+}
+
 export function extractDomain(url) {
   try {
-    return new URL(url).hostname.replace(/^www\./, '')
+    const u = new URL(url)
+    const rawHost = BLOG_HOST_NORMALIZE[u.hostname] ?? u.hostname
+    const host = rawHost.replace(/^www\./, '')
+
+    if (host === 'blog.naver.com' && u.pathname === '/PostView.naver') {
+      const blogId = u.searchParams.get('blogId')
+      if (blogId) return `blog.naver.com/${blogId}`
+    }
+
+    const pattern = BLOG_USER_PATTERN[host]
+    if (pattern) {
+      const match = u.pathname.match(pattern)
+      if (match) return `${host}/${match[1]}`
+    }
+
+    return host
   } catch {
     return url
   }
