@@ -10,6 +10,8 @@ import StreakWidget from './widgets/StreakWidget'
 import WeatherWidget from './widgets/WeatherWidget'
 import NewsWidget from './widgets/NewsWidget'
 import BookmarksWidget from './widgets/BookmarksWidget'
+import HousingWidget from './widgets/HousingWidget'
+import JobsWidget from './widgets/JobsWidget'
 import { useRoutines } from './hooks/useRoutines'
 import { useTasks } from './hooks/useTasks'
 import { useSomedayTasks } from './hooks/useSomedayTasks'
@@ -62,6 +64,11 @@ export default function App() {
             onAdd={addBookmark}
             onRemove={removeBookmark}
           />
+
+          <div className="grid grid-cols-2 gap-5">
+            <HousingWidget />
+            <JobsWidget />
+          </div>
         </div>
       </div>
 
