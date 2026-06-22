@@ -23,39 +23,41 @@ afterEach(() => {
   delete process.env.DATA_GO_KR_KEY
 })
 
-const sampleResponse = [{
-  dsSch: [{ PG_SZ: '50', PAGE: '1', CNP_CD: '41' }],
-  dsList: [
-    {
-      PAN_ID: '111',
-      PAN_NM: '파주운정3 영구임대주택 모집',
-      AIS_TP_CD_NM: '영구임대',
-      UPP_AIS_TP_NM: '임대주택',
-      CLSG_DT: '2026.07.06',
-      PAN_SS: '공고중',
-      DTL_URL: 'https://example.com/111',
-    },
-    {
-      PAN_ID: '222',
-      PAN_NM: '화성동탄2 토지 공급',
-      AIS_TP_CD_NM: '토지',
-      UPP_AIS_TP_NM: '토지',
-      CLSG_DT: '2026.07.07',
-      PAN_SS: '공고중',
-      DTL_URL: 'https://example.com/222',
-    },
-    {
-      PAN_ID: '333',
-      PAN_NM: '수원 매입임대 모집',
-      AIS_TP_CD_NM: '매입임대',
-      UPP_AIS_TP_NM: '임대주택',
-      CLSG_DT: '2026.07.10',
-      PAN_SS: '공고중',
-      DTL_URL: 'https://example.com/333',
-    },
-  ],
-  resHeader: [{ RS_DTTM: '20260622073125', SS_CODE: 'Y' }],
-}]
+const sampleResponse = [
+  { dsSch: [{ PG_SZ: '50', PAGE: '1', CNP_CD: '41' }] },
+  {
+    dsList: [
+      {
+        PAN_ID: '111',
+        PAN_NM: '파주운정3 영구임대주택 모집',
+        AIS_TP_CD_NM: '영구임대',
+        UPP_AIS_TP_NM: '임대주택',
+        CLSG_DT: '2026.07.06',
+        PAN_SS: '공고중',
+        DTL_URL: 'https://example.com/111',
+      },
+      {
+        PAN_ID: '222',
+        PAN_NM: '화성동탄2 토지 공급',
+        AIS_TP_CD_NM: '토지',
+        UPP_AIS_TP_NM: '토지',
+        CLSG_DT: '2026.07.07',
+        PAN_SS: '공고중',
+        DTL_URL: 'https://example.com/222',
+      },
+      {
+        PAN_ID: '333',
+        PAN_NM: '수원 매입임대 모집',
+        AIS_TP_CD_NM: '매입임대',
+        UPP_AIS_TP_NM: '임대주택',
+        CLSG_DT: '2026.07.10',
+        PAN_SS: '공고중',
+        DTL_URL: 'https://example.com/333',
+      },
+    ],
+    resHeader: [{ RS_DTTM: '20260622073125', SS_CODE: 'Y' }],
+  },
+]
 
 it('임대주택이 아닌 항목은 필터링한다', async () => {
   fetch.mockResolvedValue({ ok: true, json: async () => sampleResponse })
@@ -92,7 +94,10 @@ it('키 미설정 시 명확한 에러 반환', async () => {
 })
 
 it('SS_CODE !== Y면 에러로 처리한다', async () => {
-  const bad = [{ ...sampleResponse[0], resHeader: [{ SS_CODE: 'N' }] }]
+  const bad = [
+    sampleResponse[0],
+    { ...sampleResponse[1], resHeader: [{ SS_CODE: 'N' }] },
+  ]
   fetch.mockResolvedValue({ ok: true, json: async () => bad })
   const res = mockRes()
   await handler({ query: {} }, res)

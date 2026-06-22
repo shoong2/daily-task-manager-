@@ -33,17 +33,18 @@ export default async function handler(req, res) {
     }
 
     const data = await response.json()
-    const root = Array.isArray(data) ? data[0] : null
-    if (!root) {
+    if (!Array.isArray(data)) {
       return res.status(200).json({ items: [], error: 'unexpected response shape' })
     }
 
-    const ssCode = root.resHeader?.[0]?.SS_CODE
+    const merged = data.reduce((acc, o) => (o ? { ...acc, ...o } : acc), {})
+
+    const ssCode = merged.resHeader?.[0]?.SS_CODE
     if (ssCode !== 'Y') {
       return res.status(200).json({ items: [], error: `LH SS_CODE=${ssCode}` })
     }
 
-    const items = (root.dsList ?? [])
+    const items = (merged.dsList ?? [])
       .filter(row => row.UPP_AIS_TP_NM === '임대주택')
       .map(row => ({
         id: row.PAN_ID,
