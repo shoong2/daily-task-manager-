@@ -120,4 +120,4 @@ src/
 GitHub `main` 브랜치 푸시 시 Vercel이 자동 빌드·배포.  
 수동 배포: `npx vercel --prod`
 
-프로덕션 URL: https://ai-dashboard-nine-orcin.vercel.app
+프로덕션 URL: https://daily-task-manager-eight.vercel.app
