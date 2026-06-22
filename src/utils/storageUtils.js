@@ -73,3 +73,17 @@ export function setSearchFilters(filters) {
     localStorage.setItem('search-filters', JSON.stringify(filters))
   } catch {}
 }
+
+export function getJobKeywords() {
+  try {
+    return JSON.parse(localStorage.getItem('job-keywords')) ?? []
+  } catch {
+    return []
+  }
+}
+
+export function setJobKeywords(keywords) {
+  try {
+    localStorage.setItem('job-keywords', JSON.stringify(keywords))
+  } catch {}
+}
