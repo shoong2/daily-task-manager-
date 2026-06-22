@@ -23,6 +23,7 @@ export default function HousingWidget() {
         } else {
           setItems(data.items ?? [])
         }
+        setPage(0)
       })
       .catch(e => setError(e.message))
       .finally(() => setLoading(false))
@@ -34,8 +35,14 @@ export default function HousingWidget() {
     return category === '전체' ? items : items.filter(i => i.type === category)
   }, [items, category])
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
-  const visible = filtered.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE)
+  const totalPages = useMemo(
+    () => Math.max(1, Math.ceil(filtered.length / PAGE_SIZE)),
+    [filtered.length]
+  )
+  const visible = useMemo(
+    () => filtered.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE),
+    [filtered, page]
+  )
 
   const handleCategoryChange = (c) => {
     setCategory(c)

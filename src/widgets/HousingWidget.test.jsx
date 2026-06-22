@@ -77,3 +77,12 @@ it('빈 결과면 안내 메시지를 표시한다', async () => {
   render(<HousingWidget />)
   await waitFor(() => expect(screen.getByText('공고가 없습니다')).toBeInTheDocument())
 })
+
+it('새로고침 버튼 클릭 시 fetch가 다시 호출된다', async () => {
+  fetch.mockResolvedValue({ ok: true, json: async () => sample })
+  render(<HousingWidget />)
+  await waitFor(() => screen.getByText('파주 영구임대 모집'))
+  expect(fetch).toHaveBeenCalledTimes(1)
+  await userEvent.click(screen.getByLabelText('새로고침'))
+  await waitFor(() => expect(fetch).toHaveBeenCalledTimes(2))
+})
